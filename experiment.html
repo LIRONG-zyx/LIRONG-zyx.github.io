@@ -15,12 +15,11 @@
         <div class="video-container">
             <div class="white-overlay"></div>
             <video id="videoPlayer" controls>
-                <source src="" type="video/mp4">
                 您的浏览器不支持视频播放。
             </video>
         </div>
-            <!-- 新增按钮容器 -->
-       <div class="button-container">
+        <!-- 新增按钮容器 -->
+        <div class="button-container">
             <button id="actionBtn" class="glass-button">
                <span class="button-icon">⏺</span>
                感觉到风险
@@ -29,30 +28,35 @@
     </div>
 
     <script>
-        const videos = {{ videos|tojson }};
+        // 这里的视频文件名数组
+        const videos = ['concutin.mp4', 'curve.mp4'];  // 你的视频文件
         let currentIndex = 0;
         const videoPlayer = document.getElementById('videoPlayer');
         const overlay = document.querySelector('.white-overlay');
         let hasClicked = false;
 
+        // 播放下一个视频
         function playNext() {
             if (currentIndex >= videos.length) {
                 showCompletion();
                 return;
             }
 
-            videoPlayer.src = `videos/${videos[currentIndex]}`; 
+            // 设置视频路径，确保路径指向 GitHub Pages 上的正确位置
+            videoPlayer.src = `videos/${videos[currentIndex]}`;  // 视频在 /videos 文件夹下
             videoPlayer.play();
             currentIndex++;
             hasClicked = false;
         }
 
+        // 设置按钮状态（禁用或启用）
         function setButtonState(disabled) {
             const btn = document.getElementById('actionBtn');
             btn.disabled = disabled;
             btn.style.pointerEvents = disabled ? 'none' : 'auto';
         }
 
+        // 视频播放结束时的处理
         function handleVideoEnd() {
             // 禁用按钮
             setButtonState(true);
@@ -66,7 +70,7 @@
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({
-                        user_id: "{{ session.user_id }}",
+                        user_id: "{{ session.user_id }}",  // 这里是 Flask 模板语法，实际部署时替换
                         video: videos[currentIndex - 1],
                         current_frame: null
                     })
@@ -83,6 +87,7 @@
             }, 3000);
         }
 
+        // 处理按钮点击
         document.getElementById('actionBtn').addEventListener('click', () => {
             // 立即禁用按钮
             setButtonState(true);
@@ -97,7 +102,7 @@
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
-                    user_id: "{{ session.user_id }}",  // 新增用户标识
+                    user_id: "{{ session.user_id }}",  // 这里是 Flask 模板语法，实际部署时替换
                     video: videos[currentIndex - 1],
                     current_frame: videoPlayer.currentTime.toFixed(3)
                 })
@@ -113,9 +118,11 @@
             }, 3000);
         });
 
+        // 视频播放结束时触发
         videoPlayer.addEventListener('ended', handleVideoEnd);
         playNext(); // 初始化播放
 
+        // 显示实验完成的页面
         function showCompletion() {
             document.body.innerHTML = `
                 <div class="completion-screen">

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>驾驶人感知能力测试问卷</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="experiment-container">
+        <div class="header">
+            <h1>感知能力测试部分</h1>
+            <p>感知到风险即点击按钮</p>
+        </div>
+
+        <div class="video-container">
+            <div class="white-overlay"></div>
+            <video id="videoPlayer" controls>
+                <source src="" type="video/mp4">
+                您的浏览器不支持视频播放。
+            </video>
+        </div>
+            <!-- 新增按钮容器 -->
+       <div class="button-container">
+            <button id="actionBtn" class="glass-button">
+               <span class="button-icon">⏺</span>
+               感觉到风险
+            </button>
+       </div>
+    </div>
+
+    <script>
+        const videos = {{ videos|tojson }};
+        let currentIndex = 0;
+        const videoPlayer = document.getElementById('videoPlayer');
+        const overlay = document.querySelector('.white-overlay');
+        let hasClicked = false;
+
+        function playNext() {
+            if (currentIndex >= videos.length) {
+                showCompletion();
+                return;
+            }
+
+            videoPlayer.src = `/static/videos/${videos[currentIndex]}`;
+            videoPlayer.play();
+            currentIndex++;
+            hasClicked = false;
+        }
+
+        function setButtonState(disabled) {
+            const btn = document.getElementById('actionBtn');
+            btn.disabled = disabled;
+            btn.style.pointerEvents = disabled ? 'none' : 'auto';
+        }
+
+        function handleVideoEnd() {
+            // 禁用按钮
+            setButtonState(true);
+
+            // 显示白屏
+            overlay.classList.add('active');
+
+            // 发送记录（如果用户没有点击）
+            if (!hasClicked) {
+                fetch('/record', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        user_id: "{{ session.user_id }}",
+                        video: videos[currentIndex - 1],
+                        current_frame: null
+                    })
+                }).catch(error => {
+                    console.error('Error recording data:', error);
+                });
+            }
+
+            // 3秒后继续
+            setTimeout(() => {
+                overlay.classList.remove('active');
+                setButtonState(false); // 恢复按钮
+                playNext();
+            }, 3000);
+        }
+
+        document.getElementById('actionBtn').addEventListener('click', () => {
+            // 立即禁用按钮
+            setButtonState(true);
+            // 立即暂停视频
+            videoPlayer.pause();
+            hasClicked = true;
+            // 显示白屏
+            overlay.classList.add('active');
+
+            // 发送点击记录
+            fetch('/record', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    user_id: "{{ session.user_id }}",  // 新增用户标识
+                    video: videos[currentIndex - 1],
+                    current_frame: videoPlayer.currentTime.toFixed(3)
+                })
+            }).catch(error => {
+                console.error('Error recording data:', error);
+            });
+
+            // 3秒后继续
+            setTimeout(() => {
+                overlay.classList.remove('active');
+                setButtonState(false); // 恢复按钮
+                playNext();
+            }, 3000);
+        });
+
+        videoPlayer.addEventListener('ended', handleVideoEnd);
+        playNext(); // 初始化播放
+
+        function showCompletion() {
+            document.body.innerHTML = `
+                <div class="completion-screen">
+                    <h2>实验完成</h2>
+                    <p>已记录所有数据，感谢您的参与！</p>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

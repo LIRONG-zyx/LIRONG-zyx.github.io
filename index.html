@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>驾驶人风险感知能力调查问卷</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .intro-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            {% if is_mobile %}  /* 新增条件1 */
+            max-width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 15px;
+            {% endif %}
+        }
+        .intro-title {
+            text-align: center;
+            margin-bottom: 30px;
+            {% if is_mobile %}  /* 新增条件2 */
+            font-size: 28px;
+            margin-bottom: 20px;
+            {% endif %}
+        }
+        .intro-content {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            {% if is_mobile %}  /* 新增条件3 */
+            font-size: 16px;
+            line-height: 1.8;
+            {% endif %}
+        }
+        .continue-btn {
+            display: block;
+            width: 200px;
+            margin: 30px auto;
+            padding: 10px;
+            text-align: center;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            {% if is_mobile %}
+            width: 80%;
+            padding: 15px;
+            font-size: 18px;
+            {% endif %}
+        }
+    </style>
+</head>
+<body>
+    <div class="intro-container">
+        <h1 class="intro-title">驾驶人风险感知问卷</h1>
+
+        <div class="intro-content">
+            <p>欢迎参加本次测试，非常感谢您的参与。风险感知能力是驾驶员识别危险交通事件的核心，相关测试为科学评估个体驾驶能力提供依据，对提升道路交通安全水平具有关键作用。</p>
+
+            <p>请您放心，您在测试中提供的数据我们将严格遵守相关法律法规和伦理规范，确保数据的保密性和安全性。您的个人信息将被妥善处理，不会用于任何其他目的。</p>
+
+            <p>同时，由于网页中包含视频及弹窗，请大家使用电脑浏览器或者专有微信浏览器打开此链接，以防止出现不适配的情况，感谢大家的配合。</p>
+
+            <p>该问卷包含两个部分：人口学基本信息部分、感知能力测试部分。</p>
+        </div>
+
+        <button class="continue-btn" onclick="window.location.href='{{ url_for('survey') }}'">继续</button>
+    </div>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>驾驶人风险感知能力调查问卷</title>
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            {% if is_mobile %}
+            max-width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 15px;
+            {% endif %}
+        }
+
+        /* 标题样式 */
+        h1 {
+            text-align: center;  /* 强制居中 */
+            font-size: 28px;    /* 桌面端默认大小 */
+            margin-bottom: 30px;
+            {% if is_mobile %}
+            font-size: 24px;    /* 移动端缩小 */
+            {% endif %}
+        }
+
+        /* 说明内容容器 */
+        .instructions {
+            text-align: center;  /* 容器居中 */
+            margin: 25px auto;
+            max-width: 700px;
+            font-size: 18px;    /* 桌面端增大字体 */
+            {% if is_mobile %}
+            width: 90%;
+            font-size: 16px;    /* 移动端字体 */
+            line-height: 1.5;   /* 缩小行间距 */
+            {% endif %}
+        }
+
+        /* 注意事项条目 */
+        .instructions p {
+            text-align: left;
+            margin: 15px 0;
+            {% if is_mobile %}
+            line-height: 1.4;  /* 移动端更紧凑 */
+            {% endif %}
+        }
+
+        /* 按钮样式 */
+        .continue-btn {
+            display: block;
+            width: 240px;       /* 桌面端宽度 */
+            margin: 30px auto;  /* 强制居中 */
+            padding: 15px 30px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 18px;    /* 桌面端字体 */
+            {% if is_mobile %}
+            width: 85%;        /* 移动端宽度 */
+            font-size: 20px;   /* 移动端增大字体 */
+            padding: 18px;
+            {% endif %}
+        }
+                /* 新增图片容器样式 */
+        .image-examples {
+            display: flex;
+            justify-content: center;
+            margin: 30px auto;
+            max-width: 700px;
+            gap: 4%;  /* 使用百分比保持间距自适应 */
+            {% if is_mobile %}
+            flex-direction: column;
+            gap: 15px;
+            width: 85%;
+            {% endif %}
+        }
+
+        .example-image {
+            flex: 1;
+            text-align: center;
+            max-width: 48%;  /* 防止图片过宽 */
+            {% if is_mobile %}
+            max-width: 100%;
+            {% endif %}
+        }
+
+        .example-image img {
+            width: 100%;  /* 保持图片宽度自适应 */
+            height: auto;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>第二部分：感知能力测试说明</h1>
+
+        <div class="instructions">
+            <p>接下来您将观看一系列驾驶场景视频，请您尽量使用电脑或微信专用浏览器进行以下实验。感谢您的参与和支持！</p>
+            <p>注意事项如下：</p>
+
+            <div style="margin-left: 25px;">
+                <p>1.当您感知到风险时，请点击"感觉到风险"按钮。请勿重复点击按钮。</p>
+                <p>2.如您未点击按钮，则认为您在该段视频测试中未感知到任何风险情况。</p>
+                <p>3.每个视频播放完毕后（或点击按钮后）会暂停3秒并出现白屏。</p>
+                <p>4.白屏3秒后将自动播放下一个视频。</p>
+            </div>
+        </div>
+
+        <div class="image-examples">
+            <div class="example-image">
+                <img src="{{ url_for('static', filename='images/desktop.jpg') }}"
+                     alt="电脑端按钮布置示例">
+            </div>
+            <div class="example-image">
+                <img src="{{ url_for('static', filename='images/mobile.jpg') }}"
+                     alt="移动端按钮布置示例2">
+            </div>
+        </div>
+
+
+        <button class="continue-btn" onclick="window.location.href='{{ url_for('experiment') }}'">
+            我已明确，开始测试
+        </button>
+    </div>
+</body>
+</html>

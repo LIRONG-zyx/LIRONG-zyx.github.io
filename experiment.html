@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>驾驶人感知能力测试问卷</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
     <div class="experiment-container">
@@ -41,7 +41,7 @@
                 return;
             }
 
-            videoPlayer.src = `/static/videos/${videos[currentIndex]}`;
+            videoPlayer.src = `videos/${videos[currentIndex]}`; 
             videoPlayer.play();
             currentIndex++;
             hasClicked = false;

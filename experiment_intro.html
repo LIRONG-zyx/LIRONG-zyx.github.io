@@ -118,12 +118,12 @@
 
         <div class="image-examples">
             <div class="example-image">
-                <img src="{{ url_for('images', filename='desktop.jpg') }}"
-                     alt="电脑端按钮布置示例">
+                <!-- 使用相对路径引用图片 -->
+                <img src="images/desktop.jpg" alt="电脑端按钮布置示例">
             </div>
             <div class="example-image">
-                <img src="{{ url_for('images', filename='mobile.jpg') }}"
-                     alt="移动端按钮布置示例2">
+                <!-- 使用相对路径引用图片 -->
+                <img src="images/mobile.jpg" alt="移动端按钮布置示例2">
             </div>
         </div>
 
@@ -134,4 +134,5 @@
     </div>
     <a href="experiment.html">Start Experiment</a>
 </body>
+
 </html>

@@ -1,0 +1,257 @@
+/* 基础样式 */
+body {
+    margin: 0;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+    font-family: 'Segoe UI', system-ui;
+}
+
+/* 实验容器 */
+.experiment-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* 头部样式 */
+.header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.header h1 {
+    color: #2c3e50;
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.header p {
+    color: #7f8c8d;
+    font-size: 1.1rem;
+}
+
+/* 视频容器 */
+.video-container {
+    position: relative;
+    width: 80%;
+    max-width: 1400px;
+    margin: 0 auto;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    background: #fff;
+    aspect-ratio: 16/9;
+}
+/* 兼容旧浏览器的视频比例 */
+@supports not (aspect-ratio: 16/9) {
+    .video-container {
+        padding-top: 56.25%;
+    }
+}
+
+/* 白屏覆盖层 */
+.white-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.95);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.white-overlay.active {
+    opacity: 1;
+}
+
+/* 视频样式 */
+video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+/* 新增按钮容器 */
+.button-container {
+    width: 80%; /* 与video-container同宽 */
+    margin: 20px auto 0;
+    text-align: center;
+}
+
+.glass-button {
+    /* 保留必要定位 */
+    position: relative;
+    /* 基础样式 */
+    padding: 15px 40px;
+    background: #FF4757;  /* 鲜艳的红色 */
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.glass-button:hover:not(:disabled) {
+    background: #FF6B81;
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(255,71,87,0.4);
+}
+
+.glass-button:active {
+    transform: scale(0.98);
+}
+
+.button-icon {
+    font-size: 1.3em;
+    margin-right: 8px;
+}
+/* 新增禁用状态样式 */
+.glass-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+
+/* 完成界面 */
+.completion-screen {
+    text-align: center;
+    padding: 4rem;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    max-width: 600px;
+    margin: 2rem auto;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .video-container {
+        width: 95%;
+    }
+
+    .header h1 {
+        font-size: 2rem;
+    }
+}
+
+/* ================= 新增问卷样式 ================= */
+.survey-form {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin: 2rem auto;
+    max-width: 800px;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    background: #f8f9fa;
+    border-radius: 4px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+input[type="number"] {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+input[type="number"]:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.radio-group {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.radio-group label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background: #fff;
+    border-radius: 4px;
+}
+
+select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: white;
+    font-size: 1rem;
+}
+
+.slider {
+    width: 100%;
+    margin: 1rem 0;
+    -webkit-appearance: none;
+    height: 4px;
+    border-radius: 2px;
+    background: #ccc;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #007bff;
+    cursor: pointer;
+}
+
+.slider-labels {
+    display: flex;
+    justify-content: space-between;
+    color: #666;
+    font-size: 0.9rem;
+    margin-top: -0.5rem;
+}
+
+/* 确保每个选项单独成行 */
+.option-label {
+    display: block;
+    margin: 0.75rem 0;
+    padding: 0.5rem;
+    background: #fff;
+    border-radius: 4px;
+}
+
+/* 选项文本换行处理 */
+.option-text {
+    display: inline-block;
+    width: calc(100% - 20px); /* 留出单选框空间 */
+    vertical-align: top;
+    margin-left: 0.5rem;
+    line-height: 1.5;
+}
+
+/* 单选框对齐 */
+.option-label input[type="radio"] {
+    margin-top: 2px; /* 垂直居中调整 */
+    vertical-align: top;
+}
+
